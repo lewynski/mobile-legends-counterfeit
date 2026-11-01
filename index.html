@@ -3,151 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ML Hero Counter Guide</title>
+<title>MLBB Hero Counter Guide</title>
 <style>
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, -apple-system, Arial, sans-serif; color: #111; background: #fff; line-height: 1.5; }
-  main { max-width: 900px; margin: 0 auto; padding: 32px 20px 48px; }
-  h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.5px; }
-  .sub { color: #666; margin: 0 0 24px; }
-  input[type="search"] { width: 100%; padding: 12px 14px; font-size: 16px; border: 1px solid #ddd; border-radius: 10px; outline: none; }
-  input[type="search"]:focus { border-color: #111; }
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
-  .filters button { border: 1px solid #ddd; background: #fff; padding: 7px 13px; border-radius: 999px; cursor: pointer; font-size: 14px; }
-  .filters button.active { background: #111; color: #fff; border-color: #111; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
-  .card { border: 1px solid #e5e5e5; border-radius: 12px; padding: 14px; cursor: pointer; background: #fff; text-align: left; font: inherit; }
-  .card:hover, .card.selected { border-color: #111; }
-  .card strong { display: block; font-size: 16px; }
-  .card span { color: #666; font-size: 13px; }
-  #detail { margin-top: 32px; border-top: 1px solid #e5e5e5; padding-top: 24px; }
-  #detail h2 { margin: 0 0 4px; }
-  .meta { color: #666; margin: 0 0 16px; }
-  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 600px) { .cols { grid-template-columns: 1fr; } }
-  .box { border: 1px solid #e5e5e5; border-radius: 12px; padding: 16px; }
-  .box h3 { margin: 0 0 10px; font-size: 15px; }
-  .chip { display: inline-block; border: 1px solid #ddd; border-radius: 999px; padding: 5px 11px; margin: 0 6px 6px 0; cursor: pointer; background: #fff; font: inherit; font-size: 14px; }
-  .chip:hover { border-color: #111; }
-  .tip { background: #f7f7f7; border-radius: 12px; padding: 16px; margin-top: 16px; }
-  .empty { color: #666; padding: 20px 0; }
-  footer { color: #888; font-size: 13px; margin-top: 32px; }
+*{box-sizing:border-box}
+:root{--bg:#fff;--fg:#111;--muted:#666;--line:#e5e5e5;--card:#fff;--soft:#f5f5f5;--accent:#111;--accent-fg:#fff;--good:#1a7f4b;--bad:#b42318}
+@media (prefers-color-scheme:dark){:root{--bg:#0e0e10;--fg:#f2f2f2;--muted:#9b9b9b;--line:#2a2a2e;--card:#17171a;--soft:#1d1d22;--accent:#f2f2f2;--accent-fg:#0e0e10;--good:#4ade80;--bad:#f87171}}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.5}
+main{max-width:980px;margin:0 auto;padding:28px 18px 56px}
+h1{font-size:clamp(22px,4vw,30px);margin:0;letter-spacing:-.4px}
+.sub{color:var(--muted);margin:4px 0 20px}
+.searchbar{position:relative}
+#search{width:100%;padding:13px 44px 13px 16px;font:inherit;font-size:16px;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:12px;outline:none}
+#search:focus{border-color:var(--fg)}
+#clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 10px;display:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:14px 0 8px}
+.chips-row{display:flex;flex-wrap:wrap;gap:6px}
+.pill{border:1px solid var(--line);background:var(--card);color:var(--fg);padding:7px 13px;border-radius:999px;cursor:pointer;font:inherit;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.opt{font-size:14px;color:var(--muted);display:flex;gap:6px;align-items:center;cursor:pointer;user-select:none}
+.count{color:var(--muted);font-size:13px;margin:4px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.card{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:12px;padding:10px;cursor:pointer;text-align:left;font:inherit}
+.card:hover,.card:focus-visible{border-color:var(--fg);outline:none}
+.card[aria-current="true"]{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
+.av{flex:0 0 40px;height:40px;border-radius:10px;display:grid;place-items:center;font-weight:700;font-size:14px;background:var(--soft);color:var(--fg);border:1px solid var(--line)}
+.card b{display:block;font-size:15px}
+.card small{color:var(--muted);font-size:12px}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--good);margin-left:6px;vertical-align:middle}
+#detail{margin-top:28px;border-top:1px solid var(--line);padding-top:22px;scroll-margin-top:12px}
+.head{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.head .av{flex-basis:56px;height:56px;font-size:18px}
+.head h2{margin:0;font-size:24px}
+.meta{color:var(--muted);margin:2px 0 0;font-size:14px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:640px){.cols{grid-template-columns:1fr}}
+.box{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--card)}
+.box h3{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.box.s h3{color:var(--good)}
+.box.w h3{color:var(--bad)}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 11px;margin:0 6px 6px 0;background:var(--card);color:var(--fg);font:inherit;font-size:14px;cursor:pointer}
+.tag:hover{border-color:var(--fg)}
+.tag.plain{cursor:default;color:var(--muted)}
+.tip{background:var(--soft);border-radius:12px;padding:14px;margin-top:14px}
+.pending{border:1px dashed var(--line);border-radius:12px;padding:14px;color:var(--muted);margin-top:14px}
+.empty{color:var(--muted);padding:20px 0}
+footer{color:var(--muted);font-size:13px;margin-top:32px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
 </head>
 <body>
 <main>
-  <h1>ML Hero Counter Guide</h1>
-  <p class="sub">Search a hero to see what they are strong against, and what counters them.</p>
+  <header>
+    <h1>MLBB Hero Counter Guide</h1>
+    <p class="sub">Search a hero to see what they are strong against and what counters them.</p>
+  </header>
 
-  <label for="search">Search hero</label>
-  <input id="search" type="search" placeholder="Try: Ling, Layla, Esmeralda…" autocomplete="off">
+  <label class="sr" for="search">Search hero</label>
+  <div class="searchbar">
+    <input id="search" type="search" placeholder="Search hero (press / to focus)" autocomplete="off">
+    <button id="clear" aria-label="Clear search">×</button>
+  </div>
 
-  <div class="filters" id="filters" aria-label="Filter by role"></div>
+  <div class="toolbar">
+    <div class="chips-row" id="roles" role="group" aria-label="Filter by role"></div>
+    <label class="opt"><input type="checkbox" id="onlyData"> Only heroes with matchup data</label>
+  </div>
+  <div class="count" id="count" aria-live="polite"></div>
   <div class="grid" id="grid"></div>
 
   <section id="detail" aria-live="polite"></section>
-  <footer>General matchup guide. Matchups can change with patches, items, and team play.</footer>
+  <footer>General matchup guide. Matchups change with patches, items, and team play. Heroes without a green dot are listed, but their matchup data has not been added yet.</footer>
 </main>
 
 <script>
+// [name, role, lane, advantage, strong against, countered by, tip]
+const RAW = [
+  ["Layla","Marksman","Gold Lane","Very long range and strong late-game damage when she can attack safely from behind her team.",["Tigreal","Franco","Estes"],["Ling","Gusion","Hayabusa"],"Dive her early and lock her down before she scales. Do not fight her head-on late game."],
+  ["Miya","Marksman","Gold Lane","Fast attack speed and invisibility let her reposition and shred targets in longer fights.",["Layla","Estes","Valir"],["Khufra","Ling","Saber"],"Use vision, crowd control, and burst before she can use her ultimate to escape."],
+  ["Lesley","Marksman","Gold Lane","Long-range critical shots punish slow or low-mobility heroes from a safe distance.",["Tigreal","Yu Zhong","Estes"],["Ling","Hayabusa","Khufra"],"Close the gap quickly. She is weak when dived and forced to move."],
+  ["Granger","Marksman","Gold Lane","Strong early burst and mobility let him win short trades and rotate fast.",["Layla","Miya","Angela"],["Chou","Lancelot","Khufra"],"Dodge his skill shots and fight him with crowd control or a mobile diver."],
+  ["Wanwan","Marksman","Gold Lane","High mobility and true damage after hitting all weak points, strong against slow frontlines.",["Tigreal","Franco","Esmeralda"],["Khufra","Ling","Saber"],"Stop her from hitting all weak points. Use crowd control and burst when she is exposed."],
+  ["Beatrix","Marksman","Gold Lane","Four weapons give her range, burst, and area damage for different fight situations.",["Atlas","Tigreal","Yu Zhong"],["Gusion","Ling","Chou"],"Dive her with an assassin or fighter. She struggles when she cannot keep distance."],
+
+  ["Gusion","Assassin","Jungle","Fast dagger combos burst down squishy heroes before they can react.",["Layla","Miya","Eudora"],["Khufra","Chou","Paquito"],"Pick crowd control or a durable fighter, and do not walk alone late game."],
+  ["Lancelot","Assassin","Jungle","Dashes and brief immunity let him dodge skills and chase low-health targets.",["Lesley","Granger","Valir"],["Khufra","Chou","Franco"],"Save crowd control for after his dashes, or use a hero who can lock him down."],
+  ["Hayabusa","Assassin","Jungle","Shadows let him split-push and isolate one target with heavy single-target damage.",["Layla","Lesley","Estes"],["Khufra","Paquito","Esmeralda"],"Stay grouped, use crowd control, and punish him when his shadows are down."],
+  ["Ling","Assassin","Jungle","Wall movement gives him unmatched map mobility and surprise dives on backline heroes.",["Layla","Miya","Lunox"],["Khufra","Franco","Chou"],"Use anti-dash crowd control like Khufra, and protect your backline."],
+  ["Saber","Assassin","Jungle","Simple, reliable single-target burst that can delete a key carry early.",["Layla","Wanwan","Angela"],["Paquito","Yu Zhong","Esmeralda"],"Build durability, stay with your team, and use crowd control after he commits."],
+  ["Karina","Assassin","Jungle","True damage and resets let her clean up fights once enemies are low.",["Lesley","Granger","Beatrix"],["Esmeralda","Yu Zhong","Chou"],"Do not give her low-health resets. Use shields, sustain, and crowd control."],
+
+  ["Chou","Fighter","EXP Lane","High mobility, crowd control immunity, and a strong kick for isolating targets.",["Layla","Ling","Granger"],["Esmeralda","Yu Zhong","Paquito"],"Use durable heroes and team crowd control. Do not let him pick off one target alone."],
+  ["Paquito","Fighter","EXP Lane","Fast combos, shields, and crowd control make him strong in duels and skirmishes.",["Gusion","Saber","Miya"],["Esmeralda","Yu Zhong","Khufra"],"Kite him, use crowd control between combos, and avoid long trades."],
+  ["Yu Zhong","Fighter","EXP Lane","Dragon form and lifesteal let him dive, disrupt, and survive long team fights.",["Miya","Lesley","Karina"],["Esmeralda","Lunox","Valir"],"Use anti-heal, kiting, and burst. Do not fight him inside his petrify and dragon form."],
+  ["Esmeralda","Fighter","EXP Lane","She steals shields and turns enemy shields into her own durability.",["Yu Zhong","Paquito","Chou"],["Lunox","Valir","Kagura"],"Use true damage, burst, and heroes who do not rely on shields."],
+
+  ["Tigreal","Tank","Roam","Big area crowd control can start fights and lock down multiple enemies.",["Layla","Wanwan","Eudora"],["Valir","Lunox","Esmeralda"],"Use knockback, purify-style escapes, or poke him before he can engage."],
+  ["Atlas","Tank","Roam","His ultimate can pull a whole team together for a big combo.",["Layla","Miya","Lesley"],["Valir","Lunox","Kagura"],"Spread out, save a dash or crowd-control break, and punish a missed ultimate."],
+  ["Khufra","Tank","Roam","He stops dashes and jumps, which shuts down many mobile assassins.",["Ling","Gusion","Lancelot"],["Valir","Lunox","Esmeralda"],"Use ranged poke and non-dash heroes. Do not rely on dashes against him."],
+  ["Franco","Tank","Roam","A long hook and suppressing ultimate can pick off one key target instantly.",["Ling","Lancelot","Estes"],["Valir","Yu Zhong","Esmeralda"],"Stay behind minions or frontline heroes, and keep a dash or escape ready."],
+
+  ["Valir","Mage","Mid Lane","Long-range poke and knockback keep divers and tanks away from his team.",["Tigreal","Khufra","Atlas"],["Ling","Gusion","Hayabusa"],"Dive him fast with a mobile assassin. He is weak when caught without distance."],
+  ["Lunox","Mage","Mid Lane","Percent-based damage shreds tanks and shield-heavy heroes.",["Tigreal","Esmeralda","Yu Zhong"],["Ling","Saber","Gusion"],"Burst her before she can cycle her skills, or dive her with an assassin."],
+  ["Eudora","Mage","Mid Lane","Simple point-and-click burst can delete a squishy target in one combo.",["Layla","Miya","Karina"],["Chou","Paquito","Khufra"],"Use durable heroes, crowd control, and do not face-check bushes alone."],
+  ["Kagura","Mage","Mid Lane","Umbrella poke, crowd control, and mobility make her hard to pin down.",["Tigreal","Atlas","Esmeralda"],["Ling","Hayabusa","Lancelot"],"Use fast divers and crowd control when her umbrella is away from her."],
+
+  ["Angela","Support","Roam","Her ultimate lets her shield and support an ally anywhere on the map.",["Paquito","Chou","Yu Zhong"],["Saber","Gusion","Khufra"],"Burst her host target, use anti-heal, and crowd-control Angela when she appears."],
+  ["Estes","Support","Roam","Strong team healing keeps his whole team alive through long fights.",["Tigreal","Atlas","Yu Zhong"],["Ling","Hayabusa","Saber"],"Use anti-heal items, burst, and dive Estes first in team fights."]
+];
+
+// Newly verified heroes (name, role, lane). Matchup fields are empty until added.
+const NEW = [
+  ["Hirara","Assassin"], ["Nolan","Assassin"], ["Aamon","Assassin"], ["Hanzo","Assassin"],
+  ["Helcurt","Assassin"], ["Harley","Assassin"], ["Harith","Mage"], ["Hilda","Fighter"],
+  ["Sora","Fighter","EXP Lane"], ["Arlott","Fighter","EXP Lane"], ["Phoveus","Fighter","EXP Lane"],
+  ["Freya","Fighter","EXP Lane"], ["Lapu-Lapu","Fighter","EXP Lane"], ["Fredrinn","Tank"],
+  ["Claude","Marksman"], ["Kimmy","Marksman","Gold Lane"], ["Karrie","Marksman","Gold Lane"],
+  ["Clint","Marksman","Gold Lane"], ["Zhuxin","Mage","Mid Lane"]
+];
+
 const HEROES = [
-  { name:"Layla", role:"Marksman", lane:"Gold Lane", advantage:"Very long range and strong late-game damage when she can attack safely from behind her team.", strong:["Tigreal","Franco","Estes"], weak:["Ling","Gusion","Hayabusa"], tip:"Dive her early and lock her down before she scales. Do not fight her head-on late game." },
-  { name:"Miya", role:"Marksman", lane:"Gold Lane", advantage:"Fast attack speed and invisibility let her reposition and shred targets in longer fights.", strong:["Layla","Estes","Valir"], weak:["Khufra","Ling","Saber"], tip:"Use vision, crowd control, and burst before she can use her ultimate to escape." },
-  { name:"Lesley", role:"Marksman", lane:"Gold Lane", advantage:"Long-range critical shots punish slow or low-mobility heroes from a safe distance.", strong:["Tigreal","Yu Zhong","Estes"], weak:["Ling","Hayabusa","Khufra"], tip:"Close the gap quickly. She is weak when dived and forced to move." },
-  { name:"Granger", role:"Marksman", lane:"Gold Lane", advantage:"Strong early burst and mobility let him win short trades and rotate fast.", strong:["Layla","Miya","Angela"], weak:["Chou","Lancelot","Khufra"], tip:"Dodge his skill shots and fight him with crowd control or a mobile diver." },
-  { name:"Wanwan", role:"Marksman", lane:"Gold Lane", advantage:"High mobility and true damage after hitting all weak points, strong against slow frontlines.", strong:["Tigreal","Franco","Esmeralda"], weak:["Khufra","Ling","Saber"], tip:"Stop her from hitting all weak points. Use crowd control and burst when she is exposed." },
-  { name:"Beatrix", role:"Marksman", lane:"Gold Lane", advantage:"Four weapons give her range, burst, and area damage for different fight situations.", strong:["Atlas","Tigreal","Yu Zhong"], weak:["Gusion","Ling","Chou"], tip:"Dive her with an assassin or fighter. She struggles when she cannot keep distance." },
-
-  { name:"Gusion", role:"Assassin", lane:"Jungle", advantage:"Fast dagger combos burst down squishy heroes before they can react.", strong:["Layla","Miya","Eudora"], weak:["Khufra","Chou","Paquito"], tip:"Pick crowd control or a durable fighter, and do not walk alone late game." },
-  { name:"Lancelot", role:"Assassin", lane:"Jungle", advantage:"Dashes and brief immunity let him dodge skills and chase low-health targets.", strong:["Lesley","Granger","Valir"], weak:["Khufra","Chou","Franco"], tip:"Save crowd control for after his dashes, or use a hero who can lock him down." },
-  { name:"Hayabusa", role:"Assassin", lane:"Jungle", advantage:"Shadows let him split-push and isolate one target with heavy single-target damage.", strong:["Layla","Lesley","Estes"], weak:["Khufra","Paquito","Esmeralda"], tip:"Stay grouped, use crowd control, and punish him when his shadows are down." },
-  { name:"Ling", role:"Assassin", lane:"Jungle", advantage:"Wall movement gives him unmatched map mobility and surprise dives on backline heroes.", strong:["Layla","Miya","Lunox"], weak:["Khufra","Franco","Chou"], tip:"Use anti-dash crowd control like Khufra, and protect your backline." },
-  { name:"Saber", role:"Assassin", lane:"Jungle", advantage:"Simple, reliable single-target burst that can delete a key carry early.", strong:["Layla","Wanwan","Angela"], weak:["Paquito","Yu Zhong","Esmeralda"], tip:"Build durability, stay with your team, and use crowd control after he commits." },
-  { name:"Karina", role:"Assassin", lane:"Jungle", advantage:"True damage and resets let her clean up fights once enemies are low.", strong:["Lesley","Granger","Beatrix"], weak:["Esmeralda","Yu Zhong","Chou"], tip:"Do not give her low-health resets. Use shields, sustain, and crowd control." },
-
-  { name:"Chou", role:"Fighter", lane:"EXP Lane", advantage:"High mobility, crowd control immunity, and a strong kick for isolating targets.", strong:["Layla","Ling","Granger"], weak:["Esmeralda","Yu Zhong","Paquito"], tip:"Use durable heroes and team crowd control. Do not let him pick off one target alone." },
-  { name:"Paquito", role:"Fighter", lane:"EXP Lane", advantage:"Fast combos, shields, and crowd control make him strong in duels and skirmishes.", strong:["Gusion","Saber","Miya"], weak:["Esmeralda","Yu Zhong","Khufra"], tip:"Kite him, use crowd control between combos, and avoid long trades." },
-  { name:"Yu Zhong", role:"Fighter", lane:"EXP Lane", advantage:"Dragon form and lifesteal let him dive, disrupt, and survive long team fights.", strong:["Miya","Lesley","Karina"], weak:["Esmeralda","Lunox","Valir"], tip:"Use anti-heal, kiting, and burst. Do not fight him inside his petrify and dragon form." },
-  { name:"Esmeralda", role:"Fighter", lane:"EXP Lane", advantage:"She steals shields and turns enemy shields into her own durability.", strong:["Yu Zhong","Paquito","Chou"], weak:["Lunox","Valir","Kagura"], tip:"Use true damage, burst, and heroes who do not rely on shields." },
-
-  { name:"Tigreal", role:"Tank", lane:"Roam", advantage:"Big area crowd control can start fights and lock down multiple enemies.", strong:["Layla","Wanwan","Eudora"], weak:["Valir","Lunox","Esmeralda"], tip:"Use knockback, purify-style escapes, or poke him before he can engage." },
-  { name:"Atlas", role:"Tank", lane:"Roam", advantage:"His ultimate can pull a whole team together for a big combo.", strong:["Layla","Miya","Lesley"], weak:["Valir","Lunox","Kagura"], tip:"Spread out, save a dash or crowd-control break, and punish a missed ultimate." },
-  { name:"Khufra", role:"Tank", lane:"Roam", advantage:"He stops dashes and jumps, which shuts down many mobile assassins.", strong:["Ling","Gusion","Lancelot"], weak:["Valir","Lunox","Esmeralda"], tip:"Use ranged poke and non-dash heroes. Do not rely on dashes against him." },
-  { name:"Franco", role:"Tank", lane:"Roam", advantage:"A long hook and suppressing ultimate can pick off one key target instantly.", strong:["Ling","Lancelot","Estes"], weak:["Valir","Yu Zhong","Esmeralda"], tip:"Stay behind minions or frontline heroes, and keep a dash or escape ready." },
-
-  { name:"Valir", role:"Mage", lane:"Mid Lane", advantage:"Long-range poke and knockback keep divers and tanks away from his team.", strong:["Tigreal","Khufra","Atlas"], weak:["Ling","Gusion","Hayabusa"], tip:"Dive him fast with a mobile assassin. He is weak when caught without distance." },
-  { name:"Lunox", role:"Mage", lane:"Mid Lane", advantage:"Percent-based damage shreds tanks and shield-heavy heroes.", strong:["Tigreal","Esmeralda","Yu Zhong"], weak:["Ling","Saber","Gusion"], tip:"Burst her before she can cycle her skills, or dive her with an assassin." },
-  { name:"Eudora", role:"Mage", lane:"Mid Lane", advantage:"Simple point-and-click burst can delete a squishy target in one combo.", strong:["Layla","Miya","Karina"], weak:["Chou","Paquito","Khufra"], tip:"Use durable heroes, crowd control, and do not face-check bushes alone." },
-  { name:"Kagura", role:"Mage", lane:"Mid Lane", advantage:"Umbrella poke, crowd control, and mobility make her hard to pin down.", strong:["Tigreal","Atlas","Esmeralda"], weak:["Ling","Hayabusa","Lancelot"], tip:"Use fast divers and crowd control when her umbrella is away from her." },
-
-  { name:"Angela", role:"Support", lane:"Roam", advantage:"Her ultimate lets her shield and support an ally anywhere on the map.", strong:["Paquito","Chou","Yu Zhong"], weak:["Saber","Gusion","Khufra"], tip:"Burst her host target, use anti-heal, and crowd-control Angela when she appears." },
-  { name:"Estes", role:"Support", lane:"Roam", advantage:"Strong team healing keeps his whole team alive through long fights.", strong:["Tigreal","Atlas","Yu Zhong"], weak:["Ling","Hayabusa","Saber"], tip:"Use anti-heal items, burst, and dive Estes first in team fights." }
+  ...RAW.map(([n,r,l,a,s,w,t]) => ({n,r,l,a,s,w,t})),
+  ...NEW.map(([n,r,l="Lane TBD"]) => ({n,r,l,a:"",s:[],w:[],t:""}))
 ];
 
 const ROLES = ["All","Marksman","Assassin","Fighter","Tank","Mage","Support"];
-let role = "All";
-let query = "";
-const grid = document.getElementById("grid");
-const detail = document.getElementById("detail");
-const filtersEl = document.getElementById("filters");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const byName = n => HEROES.find(h => h.n === n);
+const hasData = h => h.s.length > 0 || h.w.length > 0;
+const initials = n => n.split(/[\s-]+/).map(p => p[0]).join("").slice(0,2).toUpperCase();
 
-ROLES.forEach(r => {
-  const b = document.createElement("button");
-  b.textContent = r;
-  b.className = r === "All" ? "active" : "";
-  b.onclick = () => {
-    role = r;
-    document.querySelectorAll(".filters button").forEach(x => x.classList.toggle("active", x.textContent === r));
-    render();
-  };
-  filtersEl.appendChild(b);
+const state = { role:"All", q:"", onlyData:false, cur:null };
+
+function renderRoles() {
+  $("roles").innerHTML = ROLES.map(r =>
+    `<button class="pill" data-role="${esc(r)}" aria-pressed="${r === state.role}">${esc(r)}</button>`
+  ).join("");
+}
+
+function renderGrid() {
+  const q = state.q.trim().toLowerCase();
+  const list = HEROES.filter(h =>
+    (state.role === "All" || h.r === state.role) &&
+    (!state.onlyData || hasData(h)) &&
+    h.n.toLowerCase().includes(q)
+  );
+  $("count").textContent = `${list.length} of ${HEROES.length} heroes`;
+  $("grid").innerHTML = list.length ? list.map(h => `
+    <button class="card" data-n="${esc(h.n)}" aria-current="${h.n === state.cur}">
+      <span class="av">${esc(initials(h.n))}</span>
+      <span><b>${esc(h.n)}${hasData(h) ? '<span class="dot" title="Matchup data added"></span>' : ""}</b><small>${esc(h.r)} · ${esc(h.l)}</small></span>
+    </button>`).join("")
+    : '<p class="empty">No hero found. Try another name or clear the filters.</p>';
+}
+
+function show(name, scroll = true) {
+  const h = byName(name);
+  if (!h) return;
+  state.cur = name;
+  const link = x => byName(x)
+    ? `<button class="tag" data-n="${esc(x)}">${esc(x)}</button>`
+    : `<span class="tag plain">${esc(x)}</span>`;
+  const body = hasData(h) ? `
+    <p><strong>Advantage:</strong> ${esc(h.a)}</p>
+    <div class="cols">
+      <div class="box s"><h3>Strong against</h3>${h.s.map(link).join("")}</div>
+      <div class="box w"><h3>Countered by</h3>${h.w.map(link).join("")}</div>
+    </div>
+    <div class="tip"><strong>How to counter ${esc(h.n)}:</strong> ${esc(h.t)}</div>`
+    : `<div class="pending">Matchup data for ${esc(h.n)} has not been added yet. Fill in its advantage, strong, weak, and tip fields in the data array to show counters here.</div>`;
+  $("detail").innerHTML = `
+    <div class="head"><span class="av">${esc(initials(h.n))}</span>
+      <div><h2>${esc(h.n)}</h2><p class="meta">${esc(h.r)} · ${esc(h.l)}</p></div>
+    </div>${body}`;
+  history.replaceState(null, "", "#" + encodeURIComponent(name));
+  renderGrid();
+  if (scroll) $("detail").scrollIntoView({ behavior:"smooth", block:"start" });
+}
+
+$("roles").addEventListener("click", e => {
+  const b = e.target.closest("[data-role]");
+  if (!b) return;
+  state.role = b.dataset.role;
+  renderRoles();
+  renderGrid();
+});
+$("grid").addEventListener("click", e => {
+  const b = e.target.closest("[data-n]");
+  if (b) show(b.dataset.n);
+});
+$("detail").addEventListener("click", e => {
+  const b = e.target.closest(".tag[data-n]");
+  if (b) show(b.dataset.n);
+});
+$("search").addEventListener("input", e => {
+  state.q = e.target.value;
+  $("clear").style.display = state.q ? "block" : "none";
+  renderGrid();
+});
+$("clear").onclick = () => {
+  $("search").value = "";
+  state.q = "";
+  $("clear").style.display = "none";
+  renderGrid();
+  $("search").focus();
+};
+$("onlyData").addEventListener("change", e => {
+  state.onlyData = e.target.checked;
+  renderGrid();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && document.activeElement !== $("search")) {
+    e.preventDefault();
+    $("search").focus();
+  } else if (e.key === "Escape" && document.activeElement === $("search")) {
+    $("clear").click();
+  }
+});
+window.addEventListener("hashchange", () => {
+  const n = decodeURIComponent(location.hash.slice(1));
+  if (byName(n) && n !== state.cur) show(n);
 });
 
-function find(name) { return HEROES.find(h => h.name === name); }
-
-function render() {
-  const list = HEROES.filter(h =>
-    (role === "All" || h.role === role) &&
-    h.name.toLowerCase().includes(query.toLowerCase())
-  );
-  grid.innerHTML = "";
-  if (!list.length) {
-    grid.innerHTML = '<p class="empty">No hero found. Try another name.</p>';
-    return;
-  }
-  list.forEach(h => {
-    const b = document.createElement("button");
-    b.className = "card";
-    b.innerHTML = `<strong>${h.name}</strong><span>${h.role} · ${h.lane}</span>`;
-    b.onclick = () => show(h.name);
-    grid.appendChild(b);
-  });
-}
-
-function chips(names) {
-  return names.map(n => `<button class="chip" onclick="show('${n}')">${n}</button>`).join("");
-}
-
-window.show = function(name) {
-  const h = find(name);
-  if (!h) return;
-  document.querySelectorAll(".card").forEach(c => c.classList.toggle("selected", c.textContent.includes(h.name)));
-  detail.innerHTML = `
-    <h2>${h.name}</h2>
-    <p class="meta">${h.role} · ${h.lane}</p>
-    <p><strong>Advantage:</strong> ${h.advantage}</p>
-    <div class="cols">
-      <div class="box"><h3>Strong against</h3>${chips(h.strong)}</div>
-      <div class="box"><h3>Countered by</h3>${chips(h.weak)}</div>
-    </div>
-    <div class="tip"><strong>How to counter ${h.name}:</strong> ${h.tip}</div>
-  `;
-  detail.scrollIntoView({ behavior: "smooth", block: "start" });
-};
-
-document.getElementById("search").addEventListener("input", e => { query = e.target.value; render(); });
-render();
-show("Ling");
+renderRoles();
+const start = decodeURIComponent(location.hash.slice(1));
+show(byName(start) ? start : "Ling", false);
 </script>
 </body>
 </html>
