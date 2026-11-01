@@ -1,8 +1,6 @@
-![Banner](banner.webp)
-
 <div align="center">
 
-# ML Hero Counter Guide
+# ⚔️ ML Hero Counter Guide
 
 *Counters that make sense.*
 
@@ -19,8 +17,6 @@
 ---
 
 **ML Hero Counter Guide turns one hero search into a clear matchup answer.** Search a hero to see what it is strong against, what counters it, and how to play against it. No login, no build step, no clutter.
-
-![Preview](preview.png)
 
 ## What you get
 
@@ -48,12 +44,10 @@ Then open http://localhost:8000
 
 ## Put it on GitHub
 
-Upload **all** of these files, or the images and the page will break:
+Upload both of these files:
 
 - `README.md`
 - `index.html`
-- `banner.webp`
-- `preview.png`
 
 ```bash
 cd mobile-legends-counterfeit
