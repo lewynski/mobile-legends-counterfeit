@@ -55,7 +55,7 @@ footer{color:var(--muted);font-size:13px;margin-top:32px}
 <main>
   <header>
     <h1>MLBB Hero Counter Guide</h1>
-    <p class="sub">Search a hero to see what they are strong against and what counters them.</p>
+    <p class="sub">Explore all 133 MLBB heroes with advantages, suggested favorable matchups, counter picks, and tactical tips.</p>
   </header>
 
   <label class="sr" for="search">Search hero</label>
@@ -72,7 +72,7 @@ footer{color:var(--muted);font-size:13px;margin-top:32px}
   <div class="grid" id="grid"></div>
 
   <section id="detail" aria-live="polite"></section>
-  <footer>General matchup guide. Matchups change with patches, items, and team play. Heroes without a green dot are listed, but their matchup data has not been added yet.</footer>
+  <footer>Roster: MLBBHub, 133 heroes. Original 26 matchup guides are preserved. Added guides are editorial strategy suggestions, not official or statistically verified matchup rankings. Matchups vary by patch, rank, items, roles, and team play. For ranked evidence, see mlbbhub.com/matchups.</footer>
 </main>
 
 <script>
@@ -111,26 +111,2060 @@ const RAW = [
   ["Estes","Support","Roam","Strong team healing keeps his whole team alive through long fights.",["Tigreal","Atlas","Yu Zhong"],["Ling","Hayabusa","Saber"],"Use anti-heal items, burst, and dive Estes first in team fights."]
 ];
 
-// Newly verified heroes (name, role, lane). Matchup fields are empty until added.
-const NEW = [
-  ["Hirara","Assassin"], ["Nolan","Assassin"], ["Aamon","Assassin"], ["Hanzo","Assassin"],
-  ["Helcurt","Assassin"], ["Harley","Assassin"], ["Harith","Mage"], ["Hilda","Fighter"],
-  ["Sora","Fighter","EXP Lane"], ["Arlott","Fighter","EXP Lane"], ["Phoveus","Fighter","EXP Lane"],
-  ["Freya","Fighter","EXP Lane"], ["Lapu-Lapu","Fighter","EXP Lane"], ["Fredrinn","Tank"],
-  ["Claude","Marksman"], ["Kimmy","Marksman","Gold Lane"], ["Karrie","Marksman","Gold Lane"],
-  ["Clint","Marksman","Gold Lane"], ["Zhuxin","Mage","Mid Lane"]
+// Full 133-hero roster from MLBBHub (August 2026).
+// Secondary roles retained for display and role filters.
+const ROSTER = [
+  [
+    "Aamon",
+    "Assassin"
+  ],
+  [
+    "Akai",
+    "Tank"
+  ],
+  [
+    "Aldous",
+    "Fighter"
+  ],
+  [
+    "Alice",
+    "Tank, Mage"
+  ],
+  [
+    "Alpha",
+    "Fighter"
+  ],
+  [
+    "Alucard",
+    "Fighter, Assassin"
+  ],
+  [
+    "Angela",
+    "Support"
+  ],
+  [
+    "Argus",
+    "Fighter"
+  ],
+  [
+    "Arlott",
+    "Fighter, Assassin"
+  ],
+  [
+    "Atlas",
+    "Tank"
+  ],
+  [
+    "Aulus",
+    "Fighter"
+  ],
+  [
+    "Aurora",
+    "Mage"
+  ],
+  [
+    "Badang",
+    "Fighter"
+  ],
+  [
+    "Balmond",
+    "Fighter"
+  ],
+  [
+    "Bane",
+    "Fighter, Mage"
+  ],
+  [
+    "Barats",
+    "Tank, Fighter"
+  ],
+  [
+    "Baxia",
+    "Tank"
+  ],
+  [
+    "Beatrix",
+    "Marksman"
+  ],
+  [
+    "Belerick",
+    "Tank"
+  ],
+  [
+    "Benedetta",
+    "Assassin, Fighter"
+  ],
+  [
+    "Brody",
+    "Marksman"
+  ],
+  [
+    "Bruno",
+    "Marksman"
+  ],
+  [
+    "Carmilla",
+    "Support, Tank"
+  ],
+  [
+    "Cecilion",
+    "Mage"
+  ],
+  [
+    "Chang'e",
+    "Mage"
+  ],
+  [
+    "Chip",
+    "Support, Tank"
+  ],
+  [
+    "Chou",
+    "Fighter"
+  ],
+  [
+    "Cici",
+    "Fighter"
+  ],
+  [
+    "Claude",
+    "Marksman"
+  ],
+  [
+    "Clint",
+    "Marksman"
+  ],
+  [
+    "Cyclops",
+    "Mage"
+  ],
+  [
+    "Diggie",
+    "Support"
+  ],
+  [
+    "Dyrroth",
+    "Fighter"
+  ],
+  [
+    "Edith",
+    "Tank, Marksman"
+  ],
+  [
+    "Esmeralda",
+    "Tank, Mage"
+  ],
+  [
+    "Estes",
+    "Support"
+  ],
+  [
+    "Eudora",
+    "Mage"
+  ],
+  [
+    "Fanny",
+    "Assassin"
+  ],
+  [
+    "Faramis",
+    "Support, Mage"
+  ],
+  [
+    "Floryn",
+    "Support"
+  ],
+  [
+    "Franco",
+    "Tank"
+  ],
+  [
+    "Fredrinn",
+    "Fighter, Tank"
+  ],
+  [
+    "Freya",
+    "Fighter"
+  ],
+  [
+    "Gatotkaca",
+    "Tank, Fighter"
+  ],
+  [
+    "Gloo",
+    "Tank"
+  ],
+  [
+    "Gord",
+    "Mage"
+  ],
+  [
+    "Granger",
+    "Marksman"
+  ],
+  [
+    "Grock",
+    "Tank, Fighter"
+  ],
+  [
+    "Guinevere",
+    "Fighter"
+  ],
+  [
+    "Gusion",
+    "Assassin"
+  ],
+  [
+    "Hanabi",
+    "Marksman"
+  ],
+  [
+    "Hanzo",
+    "Assassin"
+  ],
+  [
+    "Harith",
+    "Mage"
+  ],
+  [
+    "Harley",
+    "Assassin, Mage"
+  ],
+  [
+    "Hayabusa",
+    "Assassin"
+  ],
+  [
+    "Helcurt",
+    "Assassin"
+  ],
+  [
+    "Hilda",
+    "Fighter, Tank"
+  ],
+  [
+    "Hirara",
+    "Assassin"
+  ],
+  [
+    "Hylos",
+    "Tank"
+  ],
+  [
+    "Irithel",
+    "Marksman"
+  ],
+  [
+    "Ixia",
+    "Marksman"
+  ],
+  [
+    "Jawhead",
+    "Fighter"
+  ],
+  [
+    "Johnson",
+    "Tank, Support"
+  ],
+  [
+    "Joy",
+    "Assassin"
+  ],
+  [
+    "Julian",
+    "Assassin, Fighter"
+  ],
+  [
+    "Kadita",
+    "Mage, Assassin"
+  ],
+  [
+    "Kagura",
+    "Mage"
+  ],
+  [
+    "Kaja",
+    "Support"
+  ],
+  [
+    "Kalea",
+    "Support, Fighter"
+  ],
+  [
+    "Karina",
+    "Assassin"
+  ],
+  [
+    "Karrie",
+    "Marksman"
+  ],
+  [
+    "Khaleed",
+    "Fighter"
+  ],
+  [
+    "Khufra",
+    "Tank"
+  ],
+  [
+    "Kimmy",
+    "Marksman, Mage"
+  ],
+  [
+    "Lancelot",
+    "Assassin"
+  ],
+  [
+    "Lapu-Lapu",
+    "Fighter"
+  ],
+  [
+    "Layla",
+    "Marksman"
+  ],
+  [
+    "Leomord",
+    "Fighter"
+  ],
+  [
+    "Lesley",
+    "Marksman, Assassin"
+  ],
+  [
+    "Ling",
+    "Assassin"
+  ],
+  [
+    "Lolita",
+    "Support, Tank"
+  ],
+  [
+    "Lukas",
+    "Fighter"
+  ],
+  [
+    "Lunox",
+    "Mage"
+  ],
+  [
+    "Luo Yi",
+    "Mage"
+  ],
+  [
+    "Lylia",
+    "Mage"
+  ],
+  [
+    "Marcel",
+    "Support"
+  ],
+  [
+    "Martis",
+    "Fighter"
+  ],
+  [
+    "Masha",
+    "Fighter, Tank"
+  ],
+  [
+    "Mathilda",
+    "Support, Assassin"
+  ],
+  [
+    "Melissa",
+    "Marksman"
+  ],
+  [
+    "Minotaur",
+    "Tank, Support"
+  ],
+  [
+    "Minsitthar",
+    "Fighter"
+  ],
+  [
+    "Miya",
+    "Marksman"
+  ],
+  [
+    "Moskov",
+    "Marksman"
+  ],
+  [
+    "Nana",
+    "Mage"
+  ],
+  [
+    "Natalia",
+    "Assassin"
+  ],
+  [
+    "Natan",
+    "Marksman"
+  ],
+  [
+    "Nolan",
+    "Assassin"
+  ],
+  [
+    "Novaria",
+    "Mage"
+  ],
+  [
+    "Obsidia",
+    "Marksman"
+  ],
+  [
+    "Odette",
+    "Mage"
+  ],
+  [
+    "Paquito",
+    "Fighter, Assassin"
+  ],
+  [
+    "Pharsa",
+    "Mage"
+  ],
+  [
+    "Phoveus",
+    "Fighter"
+  ],
+  [
+    "Popol and Kupa",
+    "Marksman"
+  ],
+  [
+    "Rafaela",
+    "Support"
+  ],
+  [
+    "Roger",
+    "Fighter, Marksman"
+  ],
+  [
+    "Ruby",
+    "Fighter"
+  ],
+  [
+    "Saber",
+    "Assassin"
+  ],
+  [
+    "Selena",
+    "Assassin, Mage"
+  ],
+  [
+    "Silvanna",
+    "Fighter"
+  ],
+  [
+    "Sora",
+    "Fighter, Assassin"
+  ],
+  [
+    "Sun",
+    "Fighter"
+  ],
+  [
+    "Suyou",
+    "Assassin, Fighter"
+  ],
+  [
+    "Terizla",
+    "Fighter, Tank"
+  ],
+  [
+    "Thamuz",
+    "Fighter"
+  ],
+  [
+    "Tigreal",
+    "Tank"
+  ],
+  [
+    "Uranus",
+    "Tank"
+  ],
+  [
+    "Vale",
+    "Mage"
+  ],
+  [
+    "Valentina",
+    "Mage"
+  ],
+  [
+    "Valir",
+    "Mage"
+  ],
+  [
+    "Vexana",
+    "Mage"
+  ],
+  [
+    "Wanwan",
+    "Marksman"
+  ],
+  [
+    "X.Borg",
+    "Fighter"
+  ],
+  [
+    "Xavier",
+    "Mage"
+  ],
+  [
+    "Yi Sun-shin",
+    "Assassin, Marksman"
+  ],
+  [
+    "Yin",
+    "Fighter, Assassin"
+  ],
+  [
+    "Yu Zhong",
+    "Fighter"
+  ],
+  [
+    "Yve",
+    "Mage"
+  ],
+  [
+    "Zetian",
+    "Mage"
+  ],
+  [
+    "Zhask",
+    "Mage"
+  ],
+  [
+    "Zhuxin",
+    "Mage"
+  ],
+  [
+    "Zilong",
+    "Fighter, Assassin"
+  ]
 ];
 
-const HEROES = [
-  ...RAW.map(([n,r,l,a,s,w,t]) => ({n,r,l,a,s,w,t})),
-  ...NEW.map(([n,r,l="Lane TBD"]) => ({n,r,l,a:"",s:[],w:[],t:""}))
-];
+// Supplemental tactical profiles are editorial, not statistically measured matchups.
+const ADDITIONAL_MATCHUPS = {
+  "Aamon": {
+    "a": "Concealment and repeated magic burst let him punish isolated, low-defense targets.",
+    "s": [
+      "Layla",
+      "Miya",
+      "Hanabi"
+    ],
+    "w": [
+      "Saber",
+      "Khufra",
+      "Franco"
+    ],
+    "t": "Watch his shard stacks and reveal or control him as he leaves camouflage; avoid isolated rotations."
+  },
+  "Akai": {
+    "a": "His spinning ultimate can peel divers, separate opponents, and pin enemies against terrain.",
+    "s": [
+      "Fanny",
+      "Ling",
+      "Alucard"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Karrie"
+    ],
+    "t": "Avoid walls during his ultimate; poke from range and disengage before he pins a carry."
+  },
+  "Aldous": {
+    "a": "Stacking damage builds into a devastating late-game single-target punch and global chase.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Karrie",
+      "Valir",
+      "Khufra"
+    ],
+    "t": "Pressure his farm early, keep crowd control for his entry, and protect marked teammates."
+  },
+  "Alice": {
+    "a": "Sustained area magic damage and healing reward extended close-range fights.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Barats"
+    ],
+    "w": [
+      "Baxia",
+      "Karrie",
+      "Valir"
+    ],
+    "t": "Apply healing reduction, deny her close range, and burst or kite before she sustains."
+  },
+  "Alpha": {
+    "a": "True-damage follow-up and strong sustain excel in extended melee fights.",
+    "s": [
+      "Balmond",
+      "Alucard",
+      "Hilda"
+    ],
+    "w": [
+      "Valir",
+      "Karrie",
+      "Baxia"
+    ],
+    "t": "Kite outside his spear engage, reduce healing, and avoid trading through his passive."
+  },
+  "Alucard": {
+    "a": "Lifesteal and pursuit damage punish scattered teams without hard crowd control.",
+    "s": [
+      "Layla",
+      "Hanabi",
+      "Lesley"
+    ],
+    "w": [
+      "Khufra",
+      "Franco",
+      "Baxia"
+    ],
+    "t": "Chain crowd control and anti-heal; deny early jungle snowball and do not duel him unsupported."
+  },
+  "Argus": {
+    "a": "His ultimate can let him survive lethal bursts and turn extended duels.",
+    "s": [
+      "Aldous",
+      "Zilong",
+      "Lesley"
+    ],
+    "w": [
+      "Valir",
+      "Kaja",
+      "Franco"
+    ],
+    "t": "Disengage during his immortality window, then reengage when it expires."
+  },
+  "Arlott": {
+    "a": "Repeated dashes through marked targets give him strong engage and crowd-control chains.",
+    "s": [
+      "Layla",
+      "Hanabi",
+      "Claude"
+    ],
+    "w": [
+      "Minsitthar",
+      "Khufra",
+      "Phoveus"
+    ],
+    "t": "Do not group beside marked units; use anti-dash control and punish his dash downtime."
+  },
+  "Aulus": {
+    "a": "His weapon scaling and attack damage become threatening in extended late-game fights.",
+    "s": [
+      "Balmond",
+      "Sun",
+      "Zilong"
+    ],
+    "w": [
+      "Valir",
+      "Pharsa",
+      "Karrie"
+    ],
+    "t": "Invade and pressure before his power spike; kite his short range and deny sustained attacks."
+  },
+  "Aurora": {
+    "a": "Reliable freezing crowd control creates burst windows and protects against divers.",
+    "s": [
+      "Fanny",
+      "Ling",
+      "Lancelot"
+    ],
+    "w": [
+      "Diggie",
+      "Novaria",
+      "Pharsa"
+    ],
+    "t": "Bait her freeze before committing and flank from outside her casting range."
+  },
+  "Badang": {
+    "a": "Wall-dependent punches can trap enemies and deal continuous burst damage.",
+    "s": [
+      "Layla",
+      "Miya",
+      "Hanabi"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Esmeralda"
+    ],
+    "t": "Avoid being pinned against terrain; interrupt or disengage from his ultimate."
+  },
+  "Balmond": {
+    "a": "Area damage, sustain and an execute make him dangerous in clustered objectives.",
+    "s": [
+      "Sun",
+      "Zilong",
+      "Alucard"
+    ],
+    "w": [
+      "Karrie",
+      "Valir",
+      "Baxia"
+    ],
+    "t": "Keep distance and healing reduction; do not attempt a low-health Lord steal against his execute."
+  },
+  "Bane": {
+    "a": "Mixed poke, objective pressure and area disruption threaten grouped teams and towers.",
+    "s": [
+      "Sun",
+      "Tigreal",
+      "Atlas"
+    ],
+    "w": [
+      "Hayabusa",
+      "Harley",
+      "Franco"
+    ],
+    "t": "Do not bunch up for his ultimate; dive after he spends his escape or major cooldowns."
+  },
+  "Barats": {
+    "a": "Durability increases through stacks; swallowing a carry can isolate them from a fight.",
+    "s": [
+      "Zilong",
+      "Sun",
+      "Alucard"
+    ],
+    "w": [
+      "Karrie",
+      "Lunox",
+      "Valir"
+    ],
+    "t": "Let his stacks expire, avoid standing within grab range, and use percent-health damage."
+  },
+  "Baxia": {
+    "a": "Built-in healing reduction and mobility disrupt regeneration-heavy frontliners.",
+    "s": [
+      "Esmeralda",
+      "Alice",
+      "Uranus"
+    ],
+    "w": [
+      "Karrie",
+      "Valir",
+      "Lunox"
+    ],
+    "t": "Kite his rolling engage and use sustained percent-health damage against his defenses."
+  },
+  "Belerick": {
+    "a": "Reflective damage and mass taunt punish rapid basic attackers.",
+    "s": [
+      "Miya",
+      "Claude",
+      "Hanabi"
+    ],
+    "w": [
+      "Lunox",
+      "Karrie",
+      "Valir"
+    ],
+    "t": "Avoid dumping attack-speed damage into him; reposition outside his taunt and use magic poke."
+  },
+  "Benedetta": {
+    "a": "Charged dashes and brief damage immunity reward fast entry and escape.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Granger"
+    ],
+    "w": [
+      "Phoveus",
+      "Minsitthar",
+      "Khufra"
+    ],
+    "t": "Hold instant control for after her dash; do not line up within her ultimate."
+  },
+  "Brody": {
+    "a": "Heavy basic-attack bursts and marks win short gold-lane trades.",
+    "s": [
+      "Layla",
+      "Miya",
+      "Hanabi"
+    ],
+    "w": [
+      "Claude",
+      "Harith",
+      "Hayabusa"
+    ],
+    "t": "Bait out his stun and avoid repeated mark stacks; use fast dives when he is alone."
+  },
+  "Bruno": {
+    "a": "Enhanced critical hits and ball control can dominate sustained ranged trades.",
+    "s": [
+      "Layla",
+      "Hanabi",
+      "Miya"
+    ],
+    "w": [
+      "Lolita",
+      "Hayabusa",
+      "Khufra"
+    ],
+    "t": "Deny his ball retrieval and approach through cover with dive or projectile protection."
+  },
+  "Carmilla": {
+    "a": "Damage-linking and crowd control turn clumped enemies into shared targets.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Minotaur"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Karrie"
+    ],
+    "t": "Spread out so her ultimate cannot link the team; kite her engage and punish missed control."
+  },
+  "Cecilion": {
+    "a": "Very long-range stacking magic damage becomes oppressive as matches extend.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Barats"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Lancelot"
+    ],
+    "t": "Contest his early stacks, close distance quickly, and do not group in his spell lanes."
+  },
+  "Chang'e": {
+    "a": "Fast repeated ranged projectiles and lane clear exert sustained pressure.",
+    "s": [
+      "Tigreal",
+      "Gord",
+      "Atlas"
+    ],
+    "w": [
+      "Lolita",
+      "Hayabusa",
+      "Ling"
+    ],
+    "t": "Use projectile blocking or flank when her ultimate is committed; break her shield first."
+  },
+  "Chip": {
+    "a": "Portal rotations can quickly bring allies to isolate overextended opponents.",
+    "s": [
+      "Layla",
+      "Hanabi",
+      "Lesley"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Karrie"
+    ],
+    "t": "Respect portal entrances, maintain map vision, and avoid solo fights near his team."
+  },
+  "Cici": {
+    "a": "Mobile sustained percent-health damage allows her to kite slow melee heroes.",
+    "s": [
+      "Barats",
+      "Hylos",
+      "Balmond"
+    ],
+    "w": [
+      "Pharsa",
+      "Novaria",
+      "Khufra"
+    ],
+    "t": "Use long-range burst or reliable crowd control; avoid chasing while her damage stays on you."
+  },
+  "Claude": {
+    "a": "Rapid repositioning and area basic-attack effects punish grouped, immobile teams.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Estes"
+    ],
+    "w": [
+      "Khufra",
+      "Minotaur",
+      "Belerick"
+    ],
+    "t": "Control his teleport destination and interrupt his ultimate; avoid grouping in his area damage."
+  },
+  "Clint": {
+    "a": "Skill-enhanced long-range shots win short trades and pressure gold lane early.",
+    "s": [
+      "Layla",
+      "Miya",
+      "Hanabi"
+    ],
+    "w": [
+      "Hayabusa",
+      "Ling",
+      "Lancelot"
+    ],
+    "t": "Bait his dash and trade outside his empowered-shot window; punish his limited mobility."
+  },
+  "Cyclops": {
+    "a": "Continuous targeted magic damage and lock-on control can chase mobile enemies.",
+    "s": [
+      "Fanny",
+      "Ling",
+      "Lancelot"
+    ],
+    "w": [
+      "Lolita",
+      "Harley",
+      "Hayabusa"
+    ],
+    "t": "Block projectiles or burst him before he completes multiple rotations; avoid his lock-on orb."
+  },
+  "Diggie": {
+    "a": "His ultimate removes or prevents crowd-control setups for nearby allies.",
+    "s": [
+      "Atlas",
+      "Tigreal",
+      "Minotaur"
+    ],
+    "w": [
+      "Natalia",
+      "Hayabusa",
+      "Helcurt"
+    ],
+    "t": "Force out his ultimate, then engage after it ends; attack his vulnerable backline positioning."
+  },
+  "Dyrroth": {
+    "a": "Defense reduction and heavy physical burst shred high-defense melee frontliners.",
+    "s": [
+      "Tigreal",
+      "Barats",
+      "Esmeralda"
+    ],
+    "w": [
+      "Valir",
+      "Pharsa",
+      "Khufra"
+    ],
+    "t": "Dodge his dash and execution line; kite him and deny extended close-range trades."
+  },
+  "Edith": {
+    "a": "Tank-form control followed by ranged magic damage lets her switch roles midfight.",
+    "s": [
+      "Claude",
+      "Miya",
+      "Zilong"
+    ],
+    "w": [
+      "Karrie",
+      "Lunox",
+      "Valir"
+    ],
+    "t": "Spread out against her setup and keep range after she changes forms."
+  },
+  "Fanny": {
+    "a": "Cable mobility enables extreme-speed backline dives and rapid jungle rotations.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Khufra",
+      "Minsitthar",
+      "Franco"
+    ],
+    "t": "Fight away from favorable walls, contest her blue buff, and save suppression or anti-dash skills."
+  },
+  "Faramis": {
+    "a": "A team-saving ultimate reverses burst engagements and supports aggressive dives.",
+    "s": [
+      "Eudora",
+      "Saber",
+      "Kadita"
+    ],
+    "w": [
+      "Valir",
+      "Franco",
+      "Diggie"
+    ],
+    "t": "Bait out the team protection before using major damage and separate him from his allies."
+  },
+  "Floryn": {
+    "a": "Global healing and allied buffs strengthen distributed fights across the map.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Hanabi"
+    ],
+    "w": [
+      "Saber",
+      "Hayabusa",
+      "Baxia"
+    ],
+    "t": "Use anti-heal and burst priority targets before her global heal can stabilize them."
+  },
+  "Fredrinn": {
+    "a": "Stored damage, taunts and a powerful retaliation make him a durable jungle initiator.",
+    "s": [
+      "Saber",
+      "Alucard",
+      "Zilong"
+    ],
+    "w": [
+      "Karrie",
+      "Lunox",
+      "Valir"
+    ],
+    "t": "Avoid standing directly in front of his charged ultimate; kite and hit him with percent-health damage."
+  },
+  "Freya": {
+    "a": "Attack-speed scaling, shields and jumping crowd control make her dangerous in melee duels.",
+    "s": [
+      "Zilong",
+      "Sun",
+      "Aldous"
+    ],
+    "w": [
+      "Esmeralda",
+      "Valir",
+      "Karrie"
+    ],
+    "t": "Disengage from her empowered attacks, kite her cooldowns, and avoid long straight duels."
+  },
+  "Gatotkaca": {
+    "a": "Counterattack damage and large-area knock-ups punish attack-heavy teams.",
+    "s": [
+      "Miya",
+      "Claude",
+      "Sun"
+    ],
+    "w": [
+      "Karrie",
+      "Lunox",
+      "Valir"
+    ],
+    "t": "Step out of his ultimate landing zone and use magic or percent-health damage."
+  },
+  "Gloo": {
+    "a": "Sticky crowd control and attaching to targets disrupt close-range fights.",
+    "s": [
+      "Zilong",
+      "Alucard",
+      "Balmond"
+    ],
+    "w": [
+      "Faramis",
+      "Vexana",
+      "Valir"
+    ],
+    "t": "Avoid close clusters around his split forms; use area damage and disengagement."
+  },
+  "Gord": {
+    "a": "Long-range sustained true-damage effects and beam zoning punish slow frontlines.",
+    "s": [
+      "Tigreal",
+      "Barats",
+      "Hylos"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Helcurt"
+    ],
+    "t": "Flank while he channels his beam and interrupt his position with mobility or control."
+  },
+  "Grock": {
+    "a": "Wall placement and high burst resistances make him a powerful terrain controller.",
+    "s": [
+      "Fanny",
+      "Ling",
+      "Johnson"
+    ],
+    "w": [
+      "Karrie",
+      "Lunox",
+      "Valir"
+    ],
+    "t": "Fight away from choke points; kite after his wall and charge are committed."
+  },
+  "Guinevere": {
+    "a": "A jump-and-knock-up combo can burst clustered or low-mobility opponents.",
+    "s": [
+      "Layla",
+      "Hanabi",
+      "Lesley"
+    ],
+    "w": [
+      "Diggie",
+      "Chou",
+      "Valir"
+    ],
+    "t": "Predict and dodge her jump, use crowd-control immunity, and punish missed engages."
+  },
+  "Hanabi": {
+    "a": "Bouncing basic attacks and teamfight crowd control punish tightly grouped opponents.",
+    "s": [
+      "Estes",
+      "Atlas",
+      "Tigreal"
+    ],
+    "w": [
+      "Lolita",
+      "Hayabusa",
+      "Bruno"
+    ],
+    "t": "Do not clump for ricochets; remove her shield and dive from outside her attack range."
+  },
+  "Hanzo": {
+    "a": "Remote demon form attacks backlines while leaving his original body exposed.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Natalia",
+      "Ling",
+      "Hirara"
+    ],
+    "t": "Locate and punish his unattended original body; contest vision and avoid solo targets."
+  },
+  "Harith": {
+    "a": "Rapid short dashes and repeated shielded damage excel in close skirmishes.",
+    "s": [
+      "Gord",
+      "Chang'e",
+      "Pharsa"
+    ],
+    "w": [
+      "Minsitthar",
+      "Khufra",
+      "Phoveus"
+    ],
+    "t": "Use anti-dash zones and anti-heal; save control until he begins chaining dashes."
+  },
+  "Harley": {
+    "a": "A teleporting burst combo isolates a squishy target then escapes.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Miya"
+    ],
+    "w": [
+      "Lolita",
+      "Khufra",
+      "Franco"
+    ],
+    "t": "Keep track of his hat position, shield or block his projectiles, and counterattack on return."
+  },
+  "Helcurt": {
+    "a": "Silence, darkness and ambush damage punish isolated spell-reliant targets.",
+    "s": [
+      "Gord",
+      "Pharsa",
+      "Lesley"
+    ],
+    "w": [
+      "Hilda",
+      "Khufra",
+      "Belerick"
+    ],
+    "t": "Keep team vision and frontline coverage; avoid roaming alone during darkness."
+  },
+  "Hilda": {
+    "a": "Bush sustain, early invasion and repeated lock-on strikes create lane and jungle pressure.",
+    "s": [
+      "Fanny",
+      "Ling",
+      "Harley"
+    ],
+    "w": [
+      "Karrie",
+      "Valir",
+      "Dyrroth"
+    ],
+    "t": "Protect early buffs, avoid bushes without vision, and use kiting plus healing reduction."
+  },
+  "Hirara": {
+    "a": "Combined-skill immobilization and untargetable movement enable isolated jungle picks.",
+    "s": [
+      "Hanzo",
+      "Karina",
+      "X.Borg"
+    ],
+    "w": [
+      "Phoveus",
+      "Saber",
+      "Odette"
+    ],
+    "t": "Track her two energy charges, use targeted control or burst, and punish her escape cooldown."
+  },
+  "Hylos": {
+    "a": "High health, slows and area pressure make prolonged frontline engagements favorable.",
+    "s": [
+      "Zilong",
+      "Alucard",
+      "Sun"
+    ],
+    "w": [
+      "Karrie",
+      "Lunox",
+      "Valir"
+    ],
+    "t": "Use anti-heal and percent-health attacks while retreating from his slow zone."
+  },
+  "Irithel": {
+    "a": "Mobile basic attacks and ultimate area damage allow continuous kiting.",
+    "s": [
+      "Balmond",
+      "Tigreal",
+      "Barats"
+    ],
+    "w": [
+      "Lolita",
+      "Hayabusa",
+      "Khufra"
+    ],
+    "t": "Block her ranged attacks, lock her movement, and burst before she can kite."
+  },
+  "Ixia": {
+    "a": "Her wide-area ultimate can devastate teams that line up in front of her.",
+    "s": [
+      "Atlas",
+      "Tigreal",
+      "Estes"
+    ],
+    "w": [
+      "Hayabusa",
+      "Ling",
+      "Franco"
+    ],
+    "t": "Flank or interrupt her stationary firing position; do not group across her firing cone."
+  },
+  "Jawhead": {
+    "a": "An early throw and burst combo can displace a carry or isolate a jungler.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Gord"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Chou"
+    ],
+    "t": "Maintain spacing from your backline and use displacement immunity or peel after his rush."
+  },
+  "Johnson": {
+    "a": "A map-wide vehicle engage enables surprise collisions and chained crowd control.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Grock",
+      "Diggie",
+      "Valir"
+    ],
+    "t": "Watch his driving route, avoid chokepoints, and use terrain or immunity to stop follow-up."
+  },
+  "Joy": {
+    "a": "Rhythmic dashes and mobile magic damage excel against teams without reliable control.",
+    "s": [
+      "Gord",
+      "Pharsa",
+      "Chang'e"
+    ],
+    "w": [
+      "Minsitthar",
+      "Khufra",
+      "Kaja"
+    ],
+    "t": "Interrupt dash rhythm with instant control and spread out from her area ultimate."
+  },
+  "Julian": {
+    "a": "Flexible enhanced skill combinations provide burst, crowd control and escapes.",
+    "s": [
+      "Layla",
+      "Hanabi",
+      "Gord"
+    ],
+    "w": [
+      "Khufra",
+      "Chou",
+      "Valir"
+    ],
+    "t": "Track his enhanced-skill cooldown; kite his engage and punish after the combo."
+  },
+  "Kadita": {
+    "a": "A wave approach and untargetable burst combo excel against clustered backlines.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Kaja"
+    ],
+    "t": "Sidestep her wave and do not bunch up; save control for when she reappears."
+  },
+  "Kaja": {
+    "a": "Targeted suppression can pull a key enemy out of position before a teamfight.",
+    "s": [
+      "Fanny",
+      "Ling",
+      "Harith"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Pharsa"
+    ],
+    "t": "Stay behind the frontline and punish his approach; do not give him a free carry pull."
+  },
+  "Kalea": {
+    "a": "Supportive close-range control and sustain reward brawls with nearby allies.",
+    "s": [
+      "Alucard",
+      "Zilong",
+      "Balmond"
+    ],
+    "w": [
+      "Valir",
+      "Pharsa",
+      "Karrie"
+    ],
+    "t": "Kite her engage, separate her from teammates, and focus down sustain targets with anti-heal."
+  },
+  "Karrie": {
+    "a": "True-damage passive rapidly burns down high-health tanks and bruisers.",
+    "s": [
+      "Hylos",
+      "Barats",
+      "Fredrinn"
+    ],
+    "w": [
+      "Hayabusa",
+      "Ling",
+      "Lolita"
+    ],
+    "t": "Reach her before she can stack passive hits; use hard engage and avoid drawn-out trades."
+  },
+  "Khaleed": {
+    "a": "Fast rotations and sandstorm crowd control help him pressure lanes and heal.",
+    "s": [
+      "Layla",
+      "Hanabi",
+      "Zilong"
+    ],
+    "w": [
+      "Valir",
+      "Dyrroth",
+      "Baxia"
+    ],
+    "t": "Interrupt his healing channel and avoid the sandstorm engage; use anti-heal and kiting."
+  },
+  "Kimmy": {
+    "a": "Continuous moving projectiles and hybrid poke punish stationary or slow enemies.",
+    "s": [
+      "Tigreal",
+      "Gord",
+      "Atlas"
+    ],
+    "w": [
+      "Lolita",
+      "Hayabusa",
+      "Ling"
+    ],
+    "t": "Block her projectiles, close the gap from fog, and avoid trading in her firing line."
+  },
+  "Lapu-Lapu": {
+    "a": "Large teamfight control and strong temporary durability reward diving grouped foes.",
+    "s": [
+      "Layla",
+      "Hanabi",
+      "Lesley"
+    ],
+    "w": [
+      "Karrie",
+      "Valir",
+      "Esmeralda"
+    ],
+    "t": "Disengage during his empowered stance and use range to punish after it ends."
+  },
+  "Leomord": {
+    "a": "Mounted mobility and strong execution damage threaten weak targets in teamfights.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Khufra",
+      "Valir",
+      "Karrie"
+    ],
+    "t": "Avoid his mount entrance, kite the mounted phase, and deny resets on low-health allies."
+  },
+  "Lolita": {
+    "a": "Her shield blocks incoming projectiles and her ultimate provides large-area control.",
+    "s": [
+      "Kimmy",
+      "Cyclops",
+      "Chang'e"
+    ],
+    "w": [
+      "Esmeralda",
+      "Valir",
+      "Karrie"
+    ],
+    "t": "Attack from flanks or with non-projectile skills; interrupt her ultimate windup."
+  },
+  "Lukas": {
+    "a": "Adaptable fighter combos and transformation create sustained melee threat.",
+    "s": [
+      "Zilong",
+      "Sun",
+      "Alucard"
+    ],
+    "w": [
+      "Valir",
+      "Karrie",
+      "Khufra"
+    ],
+    "t": "Do not duel through his transformation; kite until his cooldowns are spent."
+  },
+  "Luo Yi": {
+    "a": "Yin-Yang reactions punish clustered opponents and her ultimate enables team teleports.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Estes"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Helcurt"
+    ],
+    "t": "Avoid stacking the same marks and watch flank teleports; dive her when displacement is down."
+  },
+  "Lylia": {
+    "a": "Persistent bombs and a rewind ultimate let her control zones while escaping burst.",
+    "s": [
+      "Tigreal",
+      "Barats",
+      "Hylos"
+    ],
+    "w": [
+      "Franco",
+      "Kaja",
+      "Harley"
+    ],
+    "t": "Track the location of her reset shoes, avoid bomb clusters, and lock her before she rewinds."
+  },
+  "Marcel": {
+    "a": "Chain crowd control and area freeze can hold enemies within allied damage zones.",
+    "s": [
+      "Atlas",
+      "Akai",
+      "Sun"
+    ],
+    "w": [
+      "Angela",
+      "Floryn",
+      "Lesley"
+    ],
+    "t": "Avoid chokepoints and forced clusters; bait his control sequence before committing."
+  },
+  "Martis": {
+    "a": "Crowd-control-resistant combos and execution resets make him a dangerous early brawler.",
+    "s": [
+      "Alucard",
+      "Zilong",
+      "Sun"
+    ],
+    "w": [
+      "Valir",
+      "Karrie",
+      "Pharsa"
+    ],
+    "t": "Kite his first combo and deny low-health reset targets; avoid early isolated skirmishes."
+  },
+  "Masha": {
+    "a": "A multi-health-bar duelist who can dive isolated damage dealers and pressure side lanes.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Karrie",
+      "Valir",
+      "Franco"
+    ],
+    "t": "Defend together against split push; use suppression and sustained damage instead of single burst."
+  },
+  "Mathilda": {
+    "a": "A guided dash grants allies mobility while her pursuit enables fast picks.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Gord"
+    ],
+    "w": [
+      "Khufra",
+      "Minsitthar",
+      "Kaja"
+    ],
+    "t": "Keep anti-dash control available and do not let her reposition a carry for free."
+  },
+  "Melissa": {
+    "a": "Her anti-approach field and doll-based damage punish melee divers.",
+    "s": [
+      "Zilong",
+      "Alucard",
+      "Sun"
+    ],
+    "w": [
+      "Pharsa",
+      "Novaria",
+      "Xavier"
+    ],
+    "t": "Use long-range poke or wait out her defensive field before diving."
+  },
+  "Minotaur": {
+    "a": "Large-area knock-ups, healing and frontline durability favor structured teamfights.",
+    "s": [
+      "Claude",
+      "Sun",
+      "Zilong"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Karrie"
+    ],
+    "t": "Spread out, save a control break, and use anti-heal plus percent-health damage."
+  },
+  "Minsitthar": {
+    "a": "His ultimate restricts dashes and forces mobile heroes to fight within his zone.",
+    "s": [
+      "Fanny",
+      "Ling",
+      "Harith"
+    ],
+    "w": [
+      "Valir",
+      "Pharsa",
+      "Xavier"
+    ],
+    "t": "Do not dash into his ultimate; poke from outside its radius and disengage after the pull."
+  },
+  "Moskov": {
+    "a": "Attack-speed scaling and wall stuns make him lethal in narrow fights.",
+    "s": [
+      "Layla",
+      "Miya",
+      "Hanabi"
+    ],
+    "w": [
+      "Belerick",
+      "Khufra",
+      "Hayabusa"
+    ],
+    "t": "Avoid standing between him and a wall; control his dash and break attack chains."
+  },
+  "Nana": {
+    "a": "A transforming control skill and delayed area burst disrupt divers and grouped teams.",
+    "s": [
+      "Fanny",
+      "Ling",
+      "Alucard"
+    ],
+    "w": [
+      "Hayabusa",
+      "Harley",
+      "Pharsa"
+    ],
+    "t": "Avoid her control field, bait it before engaging, and pressure her after passive escape triggers."
+  },
+  "Natalia": {
+    "a": "Stealth and silence punish unsupported backliners and vulnerable rotations.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Gord"
+    ],
+    "w": [
+      "Hylos",
+      "Belerick",
+      "Khufra"
+    ],
+    "t": "Stay near allies, watch stealth warnings, and use area reveals or durable peel."
+  },
+  "Natan": {
+    "a": "Magic-damage basic attacks and time-based repositioning make him a high-scaling ranged carry.",
+    "s": [
+      "Tigreal",
+      "Barats",
+      "Hylos"
+    ],
+    "w": [
+      "Lolita",
+      "Hayabusa",
+      "Khufra"
+    ],
+    "t": "Pressure him early and control his return point; do not fight through his stacked attacks."
+  },
+  "Nolan": {
+    "a": "Fast rift combos and mobility burst isolated carries before they can react.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Khufra",
+      "Minsitthar",
+      "Franco"
+    ],
+    "t": "Track his rift locations, crowd-control after mobility, and protect squishy targets."
+  },
+  "Novaria": {
+    "a": "Extremely long-range poke and vision expose targets before teamfights.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Gord"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Fanny"
+    ],
+    "t": "Flank through vision-safe routes and pressure her position before poke can accumulate."
+  },
+  "Obsidia": {
+    "a": "Shard-enhanced basic attacks and tether pressure punish enemies who cannot escape her follow-up.",
+    "s": [
+      "Benedetta",
+      "Helcurt",
+      "Aldous"
+    ],
+    "w": [
+      "Baxia",
+      "Miya",
+      "Estes"
+    ],
+    "t": "Contest her early farm, avoid getting caught by the tether, and take coordinated longer fights."
+  },
+  "Odette": {
+    "a": "A large-area sustained magic ultimate can wipe clustered enemies lacking interruption.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Estes"
+    ],
+    "w": [
+      "Saber",
+      "Kaja",
+      "Franco"
+    ],
+    "t": "Save suppression or knockback for her ultimate; never group inside its radius."
+  },
+  "Pharsa": {
+    "a": "Long-range repeated artillery zones opponents from objectives and fixed positions.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Gord"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Helcurt"
+    ],
+    "t": "Flank her casting position and interrupt her artillery before it covers a whole fight."
+  },
+  "Phoveus": {
+    "a": "Punishes repeated enemy dashes with enhanced attacks and sustained pursuit.",
+    "s": [
+      "Wanwan",
+      "Arlott",
+      "Chou"
+    ],
+    "w": [
+      "Valir",
+      "Xavier",
+      "Pharsa"
+    ],
+    "t": "Avoid unnecessary dashes near him; poke from range and disengage before he chains attacks."
+  },
+  "Popol and Kupa": {
+    "a": "Trap vision and pet-assisted burst make them effective in lane and objective control.",
+    "s": [
+      "Layla",
+      "Miya",
+      "Hanabi"
+    ],
+    "w": [
+      "Hayabusa",
+      "Ling",
+      "Pharsa"
+    ],
+    "t": "Clear traps safely, separate Kupa from Popol, and dive only when his pet is committed."
+  },
+  "Rafaela": {
+    "a": "Movement-speed boosts, heals and a line stun support allies in extended rotations.",
+    "s": [
+      "Balmond",
+      "Hylos",
+      "Tigreal"
+    ],
+    "w": [
+      "Saber",
+      "Hayabusa",
+      "Baxia"
+    ],
+    "t": "Apply anti-heal, burst fragile teammates, and avoid chasing speed-boosted groups."
+  },
+  "Roger": {
+    "a": "Flexible ranged poke and wolf-form finishing help secure kills in skirmishes.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Khufra",
+      "Franco",
+      "Karrie"
+    ],
+    "t": "Keep crowd control for his wolf-form dive and do not present low-health resets."
+  },
+  "Ruby": {
+    "a": "Repeated crowd control and spell sustain punish clustered melee opponents.",
+    "s": [
+      "Sun",
+      "Zilong",
+      "Alucard"
+    ],
+    "w": [
+      "Baxia",
+      "Valir",
+      "Pharsa"
+    ],
+    "t": "Stay outside her hook range, apply anti-heal, and poke rather than brawl in clusters."
+  },
+  "Selena": {
+    "a": "Long stuns from fog and trap vision enable aggressive early pickoffs.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Gord"
+    ],
+    "w": [
+      "Diggie",
+      "Kagura",
+      "Valir"
+    ],
+    "t": "Clear vision carefully, dodge long-range arrows, and pressure after she misses her stun."
+  },
+  "Silvanna": {
+    "a": "A locking ultimate and magic basic attacks can isolate a vulnerable target.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Diggie",
+      "Valir",
+      "Esmeralda"
+    ],
+    "t": "Keep a cleanse or displacement answer and kite beyond her trap after it expires."
+  },
+  "Sora": {
+    "a": "Mobile fighter-assassin pressure lets him threaten backliners through quick engagements.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Gord"
+    ],
+    "w": [
+      "Khufra",
+      "Minsitthar",
+      "Kaja"
+    ],
+    "t": "Preserve targeted lockdown and stay grouped; punish him when his mobility cycle is spent."
+  },
+  "Sun": {
+    "a": "Clones multiply his basic-attack pressure on structures and isolated targets.",
+    "s": [
+      "Aldous",
+      "Zilong",
+      "Balmond"
+    ],
+    "w": [
+      "X.Borg",
+      "Odette",
+      "Belerick"
+    ],
+    "t": "Use area damage to clear clones, and defend split pushes rather than solo-dueling."
+  },
+  "Suyou": {
+    "a": "Flexible charged and quick skills let him switch between burst and skirmish pressure.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Khufra",
+      "Franco",
+      "Valir"
+    ],
+    "t": "Read his stance and charge-up windows; bait mobility, then punish with controlled burst."
+  },
+  "Terizla": {
+    "a": "Heavy area swings and crowd control dominate clustered melee fights.",
+    "s": [
+      "Sun",
+      "Zilong",
+      "Alucard"
+    ],
+    "w": [
+      "Valir",
+      "Karrie",
+      "Pharsa"
+    ],
+    "t": "Kite his slow animations and disengage from the pull area of his ultimate."
+  },
+  "Thamuz": {
+    "a": "Persistent close-range damage and healing make him strong in long EXP-lane duels.",
+    "s": [
+      "Balmond",
+      "Zilong",
+      "Sun"
+    ],
+    "w": [
+      "Valir",
+      "Karrie",
+      "Baxia"
+    ],
+    "t": "Apply anti-heal and fight at range; do not continue trading inside his ultimate."
+  },
+  "Uranus": {
+    "a": "Exceptional regeneration rewards long fights and repeated short trades.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Balmond"
+    ],
+    "w": [
+      "Baxia",
+      "Karrie",
+      "Dyrroth"
+    ],
+    "t": "Buy healing reduction early, ignore him when possible, and avoid feeding passive stacks."
+  },
+  "Vale": {
+    "a": "Fast magic burst and area crowd control punish predictable team formations.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Estes"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Lancelot"
+    ],
+    "t": "Spread out, dodge his knock-up, and dive while the ultimate is unavailable."
+  },
+  "Valentina": {
+    "a": "Stealing a powerful enemy ultimate changes the value of draft and teamfight setups.",
+    "s": [
+      "Atlas",
+      "Tigreal",
+      "Minotaur"
+    ],
+    "w": [
+      "Kaja",
+      "Franco",
+      "Hayabusa"
+    ],
+    "t": "Avoid giving her premium ultimate copies; punish her short-range approach with hard control."
+  },
+  "Vexana": {
+    "a": "Area control and summoned-knight pressure excel against grouped slow targets.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Barats"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Helcurt"
+    ],
+    "t": "Avoid the cursed explosion spreading through allies and dive when summon control is down."
+  },
+  "X.Borg": {
+    "a": "His armor, true-damage spray and large-area ultimate punish grouped melee opponents.",
+    "s": [
+      "Barats",
+      "Tigreal",
+      "Sun"
+    ],
+    "w": [
+      "Karrie",
+      "Lunox",
+      "Claude"
+    ],
+    "t": "Break his armor before a committed fight and dash away from his ultimate detonation."
+  },
+  "Xavier": {
+    "a": "Long-range immobilization and global beams pressure enemies from outside normal range.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Gord"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Fanny"
+    ],
+    "t": "Flank him and interrupt his sustained casting; avoid standing in a line for his ultimate."
+  },
+  "Yi Sun-shin": {
+    "a": "Global vision and hybrid ranged-melee damage help reveal rotations and contest objectives.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Khufra",
+      "Franco",
+      "Hayabusa"
+    ],
+    "t": "Do not expose low-health positions during his global skill; contest jungle access and force close control."
+  },
+  "Yin": {
+    "a": "His isolation ultimate removes a key target from a teamfight for a forced duel.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Valir",
+      "Phoveus",
+      "Martis"
+    ],
+    "t": "Stay grouped before the isolation, use defensive items, and punish him after the duel ends."
+  },
+  "Yve": {
+    "a": "Wide-area slow zones and repeated artillery control teamfight space around objectives.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Hylos"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Fanny"
+    ],
+    "t": "Dive or displace her casting position and use flank angles rather than walking through the grid."
+  },
+  "Zetian": {
+    "a": "Long-range magic pressure and area control support coordinated mid-lane teamfights.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Estes"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Helcurt"
+    ],
+    "t": "Spread out, avoid telegraphed control zones, and threaten her backline positioning."
+  },
+  "Zhask": {
+    "a": "A stationary spawn and area damage create strong zone control around objectives.",
+    "s": [
+      "Tigreal",
+      "Atlas",
+      "Hylos"
+    ],
+    "w": [
+      "Hayabusa",
+      "Ling",
+      "Valir"
+    ],
+    "t": "Do not fight inside his spawn area; reposition and attack after his ultimate expires."
+  },
+  "Zhuxin": {
+    "a": "Repeated displacement and continuous magic control punish teams that stay close.",
+    "s": [
+      "Tigreal",
+      "Barats",
+      "Hylos"
+    ],
+    "w": [
+      "Ling",
+      "Hayabusa",
+      "Pharsa"
+    ],
+    "t": "Do not remain within her lantern area; flank quickly and disrupt her mana-dependent control."
+  },
+  "Zilong": {
+    "a": "Fast single-target pursuit and split pushing punish isolated low-defense targets.",
+    "s": [
+      "Layla",
+      "Lesley",
+      "Hanabi"
+    ],
+    "w": [
+      "Khufra",
+      "Franco",
+      "Thamuz"
+    ],
+    "t": "Maintain team vision and protect side lanes; lock him down before he reaches the backline."
+  }
+};
+const MATCHUPS = RAW.map(([n,r,l,a,s,w,t]) => ({n,r,l,a,s,w,t}));
+const HEROES = ROSTER.map(([n, roles]) => {
+  const existing = MATCHUPS.find(h => h.n === n);
+  const primary = roles.split(", ")[0];
+  const defaultLane = { Marksman:"Gold Lane", Assassin:"Jungle", Fighter:"EXP Lane", Tank:"Roam", Mage:"Mid Lane", Support:"Roam" };
+  if (existing) return {...existing, r:primary, roles:roles.split(", "), source:"Original guide"};
+  const guide = ADDITIONAL_MATCHUPS[n];
+  return {n, r:primary, roles:roles.split(", "), l:defaultLane[primary] || "Flexible",
+    ...guide, source:"General strategy"};
+});
 
 const ROLES = ["All","Marksman","Assassin","Fighter","Tank","Mage","Support"];
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const byName = n => HEROES.find(h => h.n === n);
-const hasData = h => h.s.length > 0 || h.w.length > 0;
+const hasData = h => Boolean(h.a && h.t && h.s.length && h.w.length);
 const initials = n => n.split(/[\s-]+/).map(p => p[0]).join("").slice(0,2).toUpperCase();
 
 const state = { role:"All", q:"", onlyData:false, cur:null };
@@ -144,7 +2178,7 @@ function renderRoles() {
 function renderGrid() {
   const q = state.q.trim().toLowerCase();
   const list = HEROES.filter(h =>
-    (state.role === "All" || h.r === state.role) &&
+    (state.role === "All" || h.roles.includes(state.role)) &&
     (!state.onlyData || hasData(h)) &&
     h.n.toLowerCase().includes(q)
   );
@@ -152,7 +2186,7 @@ function renderGrid() {
   $("grid").innerHTML = list.length ? list.map(h => `
     <button class="card" data-n="${esc(h.n)}" aria-current="${h.n === state.cur}">
       <span class="av">${esc(initials(h.n))}</span>
-      <span><b>${esc(h.n)}${hasData(h) ? '<span class="dot" title="Matchup data added"></span>' : ""}</b><small>${esc(h.r)} · ${esc(h.l)}</small></span>
+      <span><b>${esc(h.n)}${hasData(h) ? '<span class="dot" title="Matchup data added"></span>' : ""}</b><small>${esc(h.roles.join(" / "))} · ${esc(h.l)}</small></span>
     </button>`).join("")
     : '<p class="empty">No hero found. Try another name or clear the filters.</p>';
 }
@@ -167,14 +2201,14 @@ function show(name, scroll = true) {
   const body = hasData(h) ? `
     <p><strong>Advantage:</strong> ${esc(h.a)}</p>
     <div class="cols">
-      <div class="box s"><h3>Strong against</h3>${h.s.map(link).join("")}</div>
-      <div class="box w"><h3>Countered by</h3>${h.w.map(link).join("")}</div>
+      <div class="box s"><h3>Suggested strong against</h3>${h.s.map(link).join("")}</div>
+      <div class="box w"><h3>Suggested countered by</h3>${h.w.map(link).join("")}</div>
     </div>
     <div class="tip"><strong>How to counter ${esc(h.n)}:</strong> ${esc(h.t)}</div>`
     : `<div class="pending">Matchup data for ${esc(h.n)} has not been added yet. Fill in its advantage, strong, weak, and tip fields in the data array to show counters here.</div>`;
   $("detail").innerHTML = `
     <div class="head"><span class="av">${esc(initials(h.n))}</span>
-      <div><h2>${esc(h.n)}</h2><p class="meta">${esc(h.r)} · ${esc(h.l)}</p></div>
+      <div><h2>${esc(h.n)}</h2><p class="meta">${esc(h.roles.join(" / "))} · ${esc(h.l)}</p></div>
     </div>${body}`;
   history.replaceState(null, "", "#" + encodeURIComponent(name));
   renderGrid();
