@@ -1,93 +1,121 @@
-<div align="center">
+# MLBB Hero Counter Guide ⚔️
 
-# ⚔️ ML Hero Counter Guide
+An **anime-inspired, retro pixel-art hero matchup guide** for **Mobile Legends: Bang Bang (MLBB)**. Browse a 133-hero roster, check suggested favorable matchups and counter picks, and learn practical ways to play against each hero—all in a lightweight, single-page website.
 
-*Counters that make sense.*
+> **Unofficial fan project.** Not affiliated with, endorsed by, or sponsored by MOONTON Games.
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Heroes](https://img.shields.io/badge/heroes-45-6C63FF?style=flat-square)
-![Matchups](https://img.shields.io/badge/matchups-26-FF6D00?style=flat-square)
-![Build](https://img.shields.io/badge/build-none-00C853?style=flat-square)
-![Vercel](https://img.shields.io/badge/Vercel-ready-0070F3?style=flat-square)
+## ✨ Features
 
-</div>
+- **133 playable hero entries** with role and suggested lane information.
+- **Matchup details for every hero:** advantages, three heroes they are suggested to be strong against, three potential counters, and tactical counterplay tips.
+- **Instant search** that filters heroes as you type.
+- **Role filters:** Marksman, Assassin, Fighter, Tank, Mage, and Support. Heroes with secondary roles appear under both applicable filters.
+- **Clickable matchup names** to jump directly between hero profiles.
+- **Shareable hero URLs** via hash links (for example, `#Ling`).
+- **Anime-inspired retro arcade UI** with pixel fonts, bright role colors, stepped animations, CRT-style scanlines, and blocky cards.
+- **Responsive layout** for desktop and smaller screens.
+- **Reduced-motion support** for users who prefer fewer animations.
+- **No account or installation required.**
+
+## 🕹️ How to Use
+
+1. **Browse** the hero grid or type a name in the search field.
+2. **Filter** by role to narrow the roster.
+3. **Select a hero** to view their strengths, favorable matchups, counters, and counterplay advice.
+4. **Click a hero name** in either matchup section to open that hero's guide.
+
+**Keyboard shortcuts**
+
+| Key | Action |
+| --- | --- |
+| `/` | Focus the hero search |
+| `Esc` | Clear search when the search field is focused |
+
+The **Only heroes with matchup data** checkbox is retained for compatibility. Currently, all 133 heroes have guide entries, so selecting it does not reduce the roster.
+
+## 🚀 Getting Started
+
+This is a **static HTML/CSS/JavaScript** site. No backend, framework, database, or build tool is required.
+
+1. Save the website code as `index.html` in your project folder.
+2. Open `index.html` in a modern browser.
+
+Alternatively, serve the folder locally:
+
+```bash
+python -m http.server 8000
+```
+
+Then visit `http://localhost:8000`.
+
+### Deploy
+
+Upload `index.html` to any static hosting provider, such as **GitHub Pages**, **Netlify**, or **Vercel**. No server-side configuration is needed.
+
+## 🧰 Tech Stack
+
+| Technology | Purpose |
+| --- | --- |
+| HTML5 | Page structure and accessible controls |
+| CSS3 | Responsive layout, pixel-art styling, CRT effects, and animations |
+| Vanilla JavaScript | Roster data, filtering, search, hero navigation, and detail rendering |
+| Google Fonts | `Press Start 2P` headings and `VT323` body text |
+
+**Note:** Google Fonts requires an internet connection to load. The page otherwise runs locally without external application dependencies.
+
+## 📁 Project Structure
+
+```text
+mlbb-hero-counter-guide/
+├── index.html    # Website structure, styles, hero data, and functionality
+└── README.md     # Project documentation
+```
+
+The current implementation keeps everything in one HTML file. If your HTML file has a different name, rename it to `index.html` for the deployment structure above.
+
+## 🧩 How the Hero Data Works
+
+The JavaScript in `index.html` contains:
+
+- `ROSTER` — the 133 hero names and role assignments, including secondary roles.
+- `RAW` — 26 matchup profiles from the original guide.
+- `ADDITIONAL` — 107 supplemental editorial strategy profiles.
+- `HEROES` — the combined roster and matchup data used by the interface.
+- `ROLES` and `COLORS` — filter categories and role-based interface colors.
+
+A hero profile includes an advantage description, three suggested favorable matchups, three suggested counters, and a tactical tip.
+
+To edit or expand a profile, update its existing entry in `RAW` or `ADDITIONAL`. Keep matchup names consistent with `ROSTER` so they remain clickable.
+
+## 📚 Data Sources & Accuracy
+
+- **Hero roster reference:** [MLBB Hub — Heroes](https://mlbbhub.com/heroes)
+- **Reference for further matchup comparisons:** [MLBB Hub — Matchups](https://mlbbhub.com/matchups)
+
+The roster in the supplied website is labeled **August 2026**. The original 26 guides were preserved, while the other 107 profiles are **editorial, strategy-based suggestions**. The matchup lists are **not official counters or statistically validated rankings** and should not be interpreted as live win-rate analysis.
+
+Matchup outcomes depend on game patches, individual skill, lane assignments, items, team compositions, and coordination. Review and update recommendations as the game changes.
+
+## 🎨 Design Direction
+
+The visual theme blends **anime-inspired gaming aesthetics** with **retro arcade and pixel-art design**:
+
+- Dark navy backgrounds with vivid yellow, pink, green, and blue accents
+- Chunky rectangular borders and offset shadows
+- Role-colored hero tiles
+- CRT scanline overlay and pixel-style entrance animations
+- A compact, readable profile layout
+
+The current website uses **colored initials instead of character portraits**; it does not include official hero artwork.
+
+## 🤝 Contributing
+
+Suggestions, matchup corrections, accessibility improvements, and UI enhancements are welcome. When proposing matchup changes, include the game patch and a brief explanation or supporting evidence.
+
+## ⚖️ Disclaimer
+
+**Mobile Legends: Bang Bang**, its hero names, and related trademarks belong to their respective owners. This is an independent, unofficial educational and gaming reference. No affiliation with MOONTON Games or MLBB Hub is implied.
 
 ---
 
-**ML Hero Counter Guide turns one hero search into a clear matchup answer.** Search a hero to see what it is strong against, what counters it, and how to play against it. No login, no build step, no clutter.
-
-## What you get
-
-- **Search**: find a hero by name. Press `/` to focus the search box and `Esc` to clear it.
-- **Role filters**: All, Marksman, Assassin, Fighter, Tank, Mage, and Support
-- **Matchup filter**: show only heroes that have counter data
-- **Advantages**: each hero's role, lane, and main strength
-- **Strong against**: clickable heroes that the selected hero beats
-- **Countered by**: clickable heroes that counter the selected hero
-- **Counter tip**: one practical way to play against the hero
-- **Shareable links**: the URL hash keeps the selected hero, for example `index.html#Layla`
-- **Dark mode**: follows the system setting
-
-Heroes with a green dot have matchup data. Heroes without one are listed as "pending" until their data is added.
-
-## Run it locally
-
-No install or build is needed. Open `index.html` in a browser, or serve the folder:
-
-```bash
-python3 -m http.server 8000
-```
-
-Then open http://localhost:8000
-
-## Put it on GitHub
-
-Upload both of these files:
-
-- `README.md`
-- `index.html`
-
-```bash
-cd mobile-legends-counterfeit
-git init
-git add .
-git commit -m "Add ML hero counter guide"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/mobile-legends-counterfeit.git
-git push -u origin main
-```
-
-Replace `YOUR-USERNAME` with your GitHub username.
-
-## Deploy on Vercel
-
-1. Go to Vercel and choose **Add New > Project**.
-2. Import the `mobile-legends-counterfeit` repository.
-3. Use the default static settings. No framework preset or build command is needed.
-4. Click **Deploy**.
-
-## Add or edit a hero
-
-All hero data lives in the `<script>` section of `index.html`, in two arrays.
-
-**`RAW`: heroes with full matchup data.** Each entry is a tuple in this order:
-
-```js
-["Layla", "Marksman", "Gold Lane", "Advantage text.", ["Tigreal", "Franco", "Estes"], ["Ling", "Gusion", "Hayabusa"], "Counter tip."]
-//  name     role        lane          advantage        strong against               countered by                  tip
-```
-
-**`NEW`: heroes whose matchup data is not added yet.** Use `[name, role, lane]`. Leave out the lane to show `Lane TBD`:
-
-```js
-["Hirara", "Assassin"],
-["Sora", "Fighter", "EXP Lane"],
-```
-
-To finish a pending hero, move its entry from `NEW` to `RAW` and fill in the advantage, strong, weak, and tip fields.
-
-Keep names in `strong` and `countered by` exactly matching other hero names. Names that do not match a hero still display, but as plain text instead of clickable chips.
-
-> General matchup guide. Matchups can change with patches, items, and team play. Hero roles and lanes for newly added heroes should be checked against the current game before you rely on them.
+*Find your hero. Study the matchup. Play smarter.*
